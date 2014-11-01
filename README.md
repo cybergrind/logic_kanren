@@ -1,14 +1,11 @@
 # tl
 
-A Clojure library designed to ... well, that part is up to you.
+Playing with http://pqdtopen.proquest.com/doc/304903505.html?FMT=ABS&pubnum=3380156
 
 ## Usage
 
-FIXME
+```
+emacs src/tl/core.clj
 
-## License
-
-Copyright © 2014 FIXME
-
-Distributed under the Eclipse Public License either version 1.0 or (at
-your option) any later version.
+> M-x cider-jack-in
+```
