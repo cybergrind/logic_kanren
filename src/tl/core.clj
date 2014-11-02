@@ -51,6 +51,7 @@
 
 
 ; anyo from page 14
+(println "\nanyo")
 (defn anyo [g]
   (conde
    [g]
@@ -60,22 +61,28 @@
   (anyo (== true q)))
 
 ; anyo usage
-(run 10 [q]
-  (conde
-   [(== 2 q)]
-   [(anyo (== true q))]
-   [(anyo (== false q))]
-   [(== 1 q)]))
+
+(def r
+  (run 10 [q]
+    (conde
+     [(== 2 q)]
+     [(anyo (== true q))]
+     [(anyo (== false q))]
+     [(== 1 q)])))
+(println r)
 
 
 ; alwayso
 (def alwayso
   (anyo (== false false)))
 
-(run 5 [q]
-  (== true q)
-  alwayso
-  (== true q))
+(println "\nalwayso")
+(def r
+  (run 5 [q]
+    (== true q)
+    alwayso
+    (== true q)))
+(println r)
 
 ; appendo v2, pdf page 19
 
@@ -87,8 +94,8 @@
    [(fresh [head tail]
       (== (lcons head tail) lst1)
       (fresh [acc]
-        (appendo2 tail lst2 acc)
-        (== (lcons head acc) out)))]))
+        (== (lcons head acc) out) ; should unify before recurse!
+        (appendo2 tail lst2 acc)))]))
 
 (def r (run* [q] (appendo2 [1 2 3] [4 5] q)))
 (println r)
@@ -97,10 +104,56 @@
 
 (println "\nreverse search")
 (def r
- (run 5 [q]
+ (run* [q]
   (fresh [list1 list2]
     (appendo2 list1 list2 [1 2 3 4 5])
     (== [list1 list2] q))))
 (clojure.pprint/pprint r)
 
 
+; project example
+(run* [q]
+  (fresh [x]
+    (== 5 x)
+    (project [x]
+             (== (* x x) q))))
+
+; this give error
+; clojure.core.logic.LVar cannot be cast to java.lang.Number
+; (run* [q]
+;   (fresh [x]
+;     (== 5 x)
+;     (== (* x x) q)))
+
+
+(println "\npluso test")
+(defne pluso
+  [n m s]
+  ([x () x])
+  ([() y y])
+  ([[0 . x] [b . y] [b . res]]
+     (pluso x y res))
+  ([[b . x] [0 . y] [b . res]]
+     (pluso x y res))
+  ([[1 . x] [1 . y] [0 . res]]
+     (fresh [acc]
+       (pluso x y acc)
+       (pluso [1] acc res))))
+
+(run 4 [q]
+  (fresh [x y z]
+    (pluso x y z)
+    (== (x y z) q)))
+
+(run* [q]
+  (pluso [1 1] [0 1 1] q))
+
+(defne pl
+  [x y z]
+  ([_ () x])
+  ([() _ y])
+  ([[1 . x] [1 . y] [res]]
+    (== [1] res)))
+
+(run 1 [q]
+  (pl [1] [1] q))

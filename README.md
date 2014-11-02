@@ -1,6 +1,6 @@
 # tl
 
-Playing with http://pqdtopen.proquest.com/doc/304903505.html?FMT=ABS&pubnum=3380156
+Playing with https://scholarworks.iu.edu/dspace/bitstream/handle/2022/8777/Byrd_indiana_0093A_10344.pdf
 
 ## Usage
 
