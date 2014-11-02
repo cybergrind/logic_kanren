@@ -140,10 +140,13 @@
        (pluso x y acc)
        (pluso [1] acc res))))
 
-(run 4 [q]
+(def r
+(run 10 [q]
   (fresh [x y z]
     (pluso x y z)
-    (== (x y z) q)))
+    (== [x y z] q))))
+
+(clojure.pprint/pprint r)
 
 (run* [q]
   (pluso [1 1] [0 1 1] q))
